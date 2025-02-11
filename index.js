@@ -12,11 +12,6 @@ require('dotenv').config();
 const app = express();
 app.use(bodyParser.json());
 
-const corsOptions = {
-  origin: '*', // Allow all origins
-  optionsSuccessStatus: 200
-};
-
 app.use(cors(corsOptions)); // Use cors middleware with options
 
 const corsOptions = {
