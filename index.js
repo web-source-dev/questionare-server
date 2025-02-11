@@ -19,6 +19,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Use cors middleware with options
 
+const corsOptions = {
+  origin: '*', // Allow all origins
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions)); // Use cors middleware with options
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
