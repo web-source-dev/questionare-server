@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const pdf = require('html-pdf');
+const { PDFDocument, rgb } = require('pdf-lib'); // Replace puppeteer with pdf-lib
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors'); // Import cors
@@ -11,7 +11,13 @@ require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors()); // Add this line to enable CORS for all origins
+
+const corsOptions = {
+  origin: '*', // Allow all origins
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions)); // Use cors middleware with options
 
 // Configure Cloudinary
 cloudinary.config({
@@ -36,11 +42,86 @@ const Quiz = mongoose.model('Quiz', quizSchema);
 
 const questionsData = require('./qustions.json'); // Import questions data
 
+// Function to generate PDF content using pdf-lib
+const generatePdfContent = async (userData, groupedAnswers) => {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage();
+  const { width, height } = page.getSize();
+  const fontSize = 12;
+
+  page.drawText(`Quiz Results`, { x: 50, y: height - 50, size: 24, color: rgb(0.29, 0.63, 0.27) });
+  page.drawText(`Name: ${userData.userName}`, { x: 50, y: height - 80, size: fontSize });
+  page.drawText(`Sur Name: ${userData.userSurname}`, { x: 50, y: height - 100, size: fontSize });
+  page.drawText(`Email: ${userData.userEmail}`, { x: 50, y: height - 120, size: fontSize });
+  page.drawText(`Total Points: ${userData.totalPoints}`, { x: 50, y: height - 140, size: fontSize });
+
+  let yPosition = height - 160;
+  for (const chapterName of Object.keys(groupedAnswers)) {
+    page.drawText(chapterName, { x: 50, y: yPosition, size: 18 });
+    yPosition -= 20;
+
+    for (const answer of groupedAnswers[chapterName]) {
+      const question = questionsData.find(q => q.questionText === answer.questionName);
+      const answerText = question.followUp
+        ? `Follow-up: ${answer.questionName}: ${answer.selectedAnswer} (${answer.points} points)`
+        : `${answer.questionName}: ${answer.selectedAnswer} (${answer.points} points)`;
+
+      page.drawText(answerText, { x: 50, y: yPosition, size: fontSize });
+      yPosition -= 20;
+    }
+    yPosition -= 20;
+  }
+
+  page.drawText(`Thank you for participating in the quiz!`, { x: 50, y: yPosition, size: fontSize, color: rgb(0.47, 0.47, 0.47) });
+
+  const pdfBytes = await pdfDoc.save();
+  return pdfBytes;
+};
+
+// Function to send email with PDF attachment
+const sendEmailWithPdf = (userEmail, userName, pdfFileName, pdfUrl) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: userEmail,
+    subject: 'Your Quiz Results',
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #333;">
+        <p>Dear ${userName},</p>
+        <p>Thank you for completing the quiz. Please find attached your quiz results.</p>
+        <p>Best regards,<br/>Quiz Team</p>
+        <footer style="margin-top: 20px; font-size: 12px; color: #777;">
+          <p>This is an automated message, please do not reply.</p>
+        </footer>
+      </div>
+    `,
+    attachments: [
+      {
+        filename: pdfFileName,
+        path: pdfUrl
+      }
+    ]
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log('Email sent: ' + info.response);
+  });
+};
+
 // Endpoint to submit quiz data
 app.post('/api/submitUserData', async (req, res) => {
   try {
     const quizData = new Quiz(req.body);
-    await quizData.save();
 
     // Group answers by chapter name
     const groupedAnswers = req.body.answers.reduce((acc, answer) => {
@@ -52,123 +133,30 @@ app.post('/api/submitUserData', async (req, res) => {
       return acc;
     }, {});
 
-    // Generate PDF
-    const pdfContent = `
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; margin: 20px; }
-          h1 { color: #4CAF50; }
-          p { font-size: 16px; }
-          ul { list-style-type: none; padding: 0; }
-          li { margin-bottom: 10px; }
-          .answer { background: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-          .header { margin-bottom: 20px; }
-          .header p { margin: 5px 0; }
-          .chapter { margin-top: 20px; }
-          .follow-up { font-size: 12px; color: #555; }
-          .follow-up-question { display: flex; align-items: center; }
-          .follow-up-question .follow-up { margin-right: 10px; }
-          .follow-up-label { color: red; font-weight: bold; }
-          .footer { margin-top: 40px; text-align: center; font-size: 14px; color: #777; }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <h1>Quiz Results</h1>
-          <p><strong>Name:</strong> ${req.body.userName}</p>
-          <p><strong>Sur Name:</strong> ${req.body.userSurname}</p>
-          <p><strong>Email:</strong> ${req.body.userEmail}</p>
-          <p><strong>Total Points:</strong> ${req.body.totalPoints}</p>
-        </div>
-        ${Object.keys(groupedAnswers).map(chapterName => `
-          <div class="chapter">
-            <h2>${chapterName}</h2>
-            <ul>
-              ${groupedAnswers[chapterName].map(answer => {
-                const question = questionsData.find(q => q.questionText === answer.questionName);
-                return `
-                  <li class="answer">
-                    ${question.followUp ? `
-                      <div class="follow-up-question">
-                        <div class="follow-up-label">Follow-up:</div>
-                        <div><strong>${answer.questionName}:</strong> ${answer.selectedAnswer} (${answer.points} points)</div>
-                      </div>
-                    ` : `
-                      <strong>${answer.questionName}:</strong> ${answer.selectedAnswer} (${answer.points} points)
-                    `}
-                  </li>`;
-              }).join('')}
-            </ul>
-          </div>`).join('')}
-        <div class="footer">
-          <p>Thank you for participating in the quiz!</p>
-        </div>
-      </body>
-      </html>
-    `;
-
+    // Generate PDF content
+    const pdfBytes = await generatePdfContent(req.body, groupedAnswers);
     const randomValue = Math.floor(1000 + Math.random() * 9000);
     const pdfFileName = `${req.body.userName}_${req.body.userSurname}_${randomValue}.pdf`;
 
     // Upload PDF to Cloudinary
-    pdf.create(pdfContent).toBuffer(async (err, buffer) => {
-      if (err) return console.log(err);
+    cloudinary.uploader.upload_stream({ resource_type: "raw", public_id: pdfFileName }, async (error, result) => {
+      if (error) return console.log(error);
 
-      cloudinary.uploader.upload_stream({ resource_type: "raw", public_id: pdfFileName }, async (error, result) => {
-        if (error) return console.log(error);
+      // Save Cloudinary URL in the database
+      quizData.pdfUrl = result.secure_url;
+      await quizData.save();
 
-        // Save Cloudinary URL in the database
-        quizData.pdfUrl = result.secure_url;
-        await quizData.save();
+      // Send email with PDF attachment
+      sendEmailWithPdf(req.body.userEmail, req.body.userName, pdfFileName, result.secure_url);
 
-        // Send email with PDF attachment
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-          }
-        });
-
-        const mailOptions = {
-          from: process.env.EMAIL_USER,
-          to: req.body.userEmail,
-          subject: 'Your Quiz Results',
-          html: `
-            <div style="font-family: Arial, sans-serif; color: #333;">
-              <p>Dear ${req.body.userName},</p>
-              <p>Thank you for completing the quiz. Please find attached your quiz results.</p>
-              <p>Best regards,<br/>Quiz Team</p>
-              <footer style="margin-top: 20px; font-size: 12px; color: #777;">
-                <p>This is an automated message, please do not reply.</p>
-              </footer>
-            </div>
-          `,
-          attachments: [
-            {
-              filename: pdfFileName,
-              path: result.secure_url
-            }
-          ]
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            return console.log(error);
-          }
-          console.log('Email sent: ' + info.response);
-        });
-
-        res.status(200).json({
-          message: 'Quiz submitted successfully!',
-          data: {
-            ...quizData.toObject(),
-            pdfUrl: result.secure_url // Return Cloudinary URL for the PDF file
-          }
-        });
-      }).end(buffer);
-    });
+      res.status(200).json({
+        message: 'Quiz submitted successfully!',
+        data: {
+          ...quizData.toObject(),
+          pdfUrl: result.secure_url // Return Cloudinary URL for the PDF file
+        }
+      });
+    }).end(pdfBytes);
   } catch (error) {
     console.error("Error submitting data:", error);
     res.status(500).send('Failed to submit quiz.');
