@@ -1,0 +1,306 @@
+[
+    {
+      "questionName": "Q6a",
+      "nextQuestion": "Q7",
+      "questionText": "Are you looking to increase strength or endurance?",
+      "chName": ". Wellness Interests",
+      "questionNumber": 16,
+      "followUp": true
+    },
+    {
+      "questionName": "Q11",
+      "nextQuestion": "Q12",
+      "questionText": "Do you prefer wellness at home or away?",
+      "chName": "Personalization",
+      "questionNumber": 31,
+      "followUp": false
+    },
+    {
+      "questionName": "Q8",
+      "nextQuestion": "Q9",
+      "questionText": "What is your primary wellness goal?",
+      "chName": "Personalization",
+      "questionNumber": 21,
+      "followUp": false
+    },
+    {
+      "questionName": "Q6",
+      "nextQuestion": "Q7",
+      "questionText": "What was your main wellness activity last month?",
+      "chName": ". Wellness Interests",
+      "questionNumber": 15,
+      "followUp": false
+    },
+    {
+      "questionName": "Q11b",
+      "nextQuestion": "Q12",
+      "questionText": "Do you prefer more time at home or out of home?",
+      "chName": "Personalization",
+      "questionNumber": 33,
+      "followUp": true
+    },
+    {
+      "questionName": "Q11c",
+      "nextQuestion": "Q12",
+      "questionText": "Do you prioritize retreats, gyms, or social wellness?",
+      "chName": "Personalization",
+      "questionNumber": 34,
+      "followUp": true
+    },
+    {
+      "questionName": "Q4c",
+      "nextQuestion": "Q5",
+      "questionText": "Are sustainable materials important to you?",
+      "chName": "Wellness Environment Preferences",
+      "questionNumber": 11,
+      "followUp": true
+    },
+    {
+      "questionName": "Q12a",
+      "nextQuestion": null,
+      "questionText": "How often do you engage with your coach?",
+      "chName": "Current Wellness Engagement",
+      "questionNumber": 36,
+      "followUp": true
+    },
+    {
+      "questionName": "Q8b",
+      "nextQuestion": "Q9",
+      "questionText": " Are you interested in mitochondrial health or anti-aging solutions?",
+      "chName": "Personalization",
+      "questionNumber": 23,
+      "followUp": true
+    },
+    {
+      "questionName": "Q7",
+      "nextQuestion": "Q8",
+      "questionText": "What type of wellness pursuit fulfills you most?",
+      "chName": ". Wellness Interests",
+      "questionNumber": 17,
+      "followUp": false
+    },
+    {
+      "questionName": "Q4a",
+      "nextQuestion": "Q5",
+      "questionText": "What would you prioritize in a bespoke sanctuary?",
+      "chName": "Wellness Environment Preferences",
+      "questionNumber": 10,
+      "followUp": true
+    },
+    {
+      "questionName": "Q10b",
+      "nextQuestion": "Q11",
+      "questionText": "Are you looking for flexible routines or defined boundaries?",
+      "chName": "Personalization",
+      "questionNumber": 30,
+      "followUp": true
+    },
+    {
+      "questionName": "Q7b",
+      "nextQuestion": "Q8",
+      "questionText": " Do you prefer small or large group settings?",
+      "chName": ". Wellness Interests",
+      "questionNumber": 19,
+      "followUp": true
+    },
+    {
+      "questionName": "Q8c",
+      "nextQuestion": "Q9",
+      "questionText": "Are you focusing on weight management, energy, or immunity?",
+      "chName": "Personalization",
+      "questionNumber": 24,
+      "followUp": true
+    },
+    {
+      "questionName": "Q11a",
+      "nextQuestion": "Q12",
+      "questionText": "What elements of at-home wellness are most important to you?",
+      "chName": "Personalization",
+      "questionNumber": 32,
+      "followUp": true
+    },
+    {
+      "questionName": "Q7a",
+      "nextQuestion": "Q8",
+      "questionText": "Would you like access to virtual coaching?",
+      "chName": ". Wellness Interests",
+      "questionNumber": 18,
+      "followUp": true
+    },
+    {
+      "questionName": "Q7d",
+      "nextQuestion": "Q8",
+      "questionText": "What duration works best for you?",
+      "chName": ". Wellness Interests",
+      "questionNumber": 20,
+      "followUp": true
+    },
+    {
+      "questionName": "Q3",
+      "nextQuestion": "Q4",
+      "questionText": "How do you prefer to spend your leisure time?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 6,
+      "followUp": false
+    },
+    {
+      "questionName": "Q3c",
+      "nextQuestion": "Q4",
+      "questionText": "What type of retreat aligns with your goals?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 8,
+      "followUp": true
+    },
+    {
+      "questionName": "Q9a",
+      "nextQuestion": "Q10",
+      "questionText": " Do you prefer short-term or ongoing detox plans?",
+      "chName": "Personalization",
+      "questionNumber": 26,
+      "followUp": true
+    },
+    {
+      "questionName": "Q3a",
+      "nextQuestion": "Q4",
+      "questionText": " Which activities do you enjoy most?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 7,
+      "followUp": true
+    },
+    {
+      "questionName": "Q12",
+      "nextQuestion": null,
+      "questionText": "Are you currently participating in wellness programs?",
+      "chName": "Current Wellness Engagement",
+      "questionNumber": 35,
+      "followUp": false
+    },
+    {
+      "questionName": "Q4",
+      "nextQuestion": "Q5",
+      "questionText": "What is your ideal wellness sanctuary?",
+      "chName": "Wellness Environment Preferences",
+      "questionNumber": 9,
+      "followUp": false
+    },
+    {
+      "questionName": "Q2b",
+      "nextQuestion": "Q3",
+      "questionText": "What’s your biggest challenge in balancing work and wellness?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 5,
+      "followUp": true
+    },
+    {
+      "questionName": "Q9",
+      "nextQuestion": "Q10",
+      "questionText": "What is your specific nutrition goal?",
+      "chName": "Personalization",
+      "questionNumber": 25,
+      "followUp": false
+    },
+    {
+      "questionName": "Q12c",
+      "nextQuestion": null,
+      "questionText": "Would you prefer virtual, in-person, or hybrid services?",
+      "chName": "Current Wellness Engagement",
+      "questionNumber": 38,
+      "followUp": true
+    },
+    {
+      "questionName": "Q2",
+      "nextQuestion": "Q3",
+      "questionText": "How structured is your daily routine?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 4,
+      "followUp": false
+    },
+    {
+      "questionName": "Q1",
+      "nextQuestion": "Q2",
+      "questionText": "What is your biggest wellness challenge?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 1,
+      "followUp": false
+    },
+    {
+      "questionName": "Q1c",
+      "nextQuestion": "Q2",
+      "questionText": " Would you like shared family wellness plans?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 3,
+      "followUp": true
+    },
+    {
+      "questionName": "Q5c",
+      "nextQuestion": "Q6",
+      "questionText": "Do you have dedicated space for wellness?",
+      "chName": "Wellness Environment Preferences",
+      "questionNumber": 14,
+      "followUp": true
+    },
+    {
+      "questionName": "Q8a",
+      "nextQuestion": "Q9",
+      "questionText": "Do you prefer bodyweight, resistance training, or both?",
+      "chName": "Personalization",
+      "questionNumber": 22,
+      "followUp": true
+    },
+    {
+      "questionName": "Q10",
+      "nextQuestion": "Q11",
+      "questionText": "What is your specific lifestyle goal?",
+      "chName": "Personalization",
+      "questionNumber": 28,
+      "followUp": false
+    },
+    {
+      "questionName": "Q12b",
+      "nextQuestion": null,
+      "questionText": "Which tools support your routine?",
+      "chName": "Current Wellness Engagement",
+      "questionNumber": 37,
+      "followUp": true
+    },
+    {
+      "questionName": "Q10a",
+      "nextQuestion": "Q11",
+      "questionText": "Do you prefer mindfulness, physical activity, or therapy?",
+      "chName": "Personalization",
+      "questionNumber": 29,
+      "followUp": true
+    },
+    {
+      "questionName": "Q9b",
+      "nextQuestion": "Q10",
+      "questionText": "Would you like meals tailored to activity, genetic profile, or both?",
+      "chName": "Personalization",
+      "questionNumber": 27,
+      "followUp": true
+    },
+    {
+      "questionName": "Q1b",
+      "nextQuestion": "Q2",
+      "questionText": ": What type of wellness do you prioritize during travel?",
+      "chName": "Personal Lifestyle",
+      "questionNumber": 2,
+      "followUp": true
+    },
+    {
+      "questionName": "Q5b",
+      "nextQuestion": "Q6",
+      "questionText": "Would you like personalized equipment recommendations?",
+      "chName": "Wellness Environment Preferences",
+      "questionNumber": 13,
+      "followUp": true
+    },
+    {
+      "questionName": "Q5",
+      "nextQuestion": "Q6",
+      "questionText": "Do you currently have fitness equipment at home?",
+      "chName": "Wellness Environment Preferences",
+      "questionNumber": 12,
+      "followUp": false
+    }
+]
